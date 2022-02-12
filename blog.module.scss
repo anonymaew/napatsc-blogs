@@ -1,0 +1,51 @@
+$bg: black;
+$pri: white;
+$sec: orange;
+$ter: #666;
+
+.blog {
+  min-height: 100vh;
+  background: $bg;
+  > div {
+    padding: 45px;
+    margin: auto;
+    max-width: 980px;
+    color: $pri;
+    font-size: large;
+    line-height: 1.5;
+    h1:first-of-type {
+      font-size: 4.5rem;
+      margin-bottom: 1rem;
+    }
+    p:nth-of-type(2) {
+      text-align: right;
+    }
+    p:last-of-type {
+      text-align: center;
+    }
+    strong {
+      color: $sec;
+    }
+    a {
+      color: $sec;
+      text-decoration: underline;
+    }
+    iframe {
+      display: block;
+      margin: auto;
+    }
+    blockquote {
+      border-left: 6px solid $sec;
+      padding: 0 24px;
+    }
+    pre,
+    code {
+      padding: 6px;
+      border-radius: 6px;
+      background-color: #333;
+    }
+    hr {
+      border-color: $ter;
+    }
+  }
+}
