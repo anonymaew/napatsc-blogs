@@ -1,5 +1,20 @@
-import s from "./blog.module.scss";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
 import Link from "next/link";
+import s from "./blog.module.scss";
+
+export interface BlogProps {
+  meta: {
+    title: string;
+    description: string;
+    imgLink: string;
+    author: string;
+    authorLink: string;
+    date: number;
+  };
+  children: React.ReactNode;
+}
 
 export const timeToString = (unix: number) => {
   const d = new Date(unix);
@@ -10,48 +25,79 @@ export const timeToString = (unix: number) => {
   return `${date} ${month} ${year}`;
 };
 
-export interface BlogProps {
-  meta: {
-    title: string;
-    description: string;
-    author: string;
-    authorLink: string;
-    date: number;
-  };
-  children: React.ReactNode;
-}
-
-export const Blog = (props: BlogProps) => (
-  <div className={s.blog}>
-    <div className="blogPage">
-      <h1>{props.meta.title}</h1>
-      <p>{props.meta.description}</p>
-      <p>
-        Written by <a href={props.meta.authorLink}>{props.meta.author}</a> on{" "}
-        {timeToString(props.meta.date)}
-      </p>
-      <hr />
-      {props.children}
-      <br />
-      <p>
-        <Link href="/b">
-          <a>{"<"} Back to the main page</a>
-        </Link>
-      </p>
+export const Footer = () => {
+  return (
+    <div className="footer">
       <hr />
       <p>
         © {new Date().getFullYear()}{" "}
         <a href="https://github.com/anonymaew">Napat Srichan</a>
       </p>
     </div>
+  );
+};
+
+export const BlogCard = (props: any) => (
+  <div>
+    <Link href={`/b/${props.id}`}>
+      <a>
+        <div className="blog-card">
+          <div>
+            <img src={props.meta.imgLink} alt={props.meta.title} />
+          </div>
+          <div>
+            <h3>{props.meta.title}</h3>
+            <div>
+              <p>{props.meta.description}</p>
+              <p>{`${props.meta.author}, ${timeToString(props.meta.date)}`}</p>
+            </div>
+          </div>
+        </div>
+      </a>
+    </Link>
   </div>
 );
 
-const Blogs = () => {
+export const getStaticProps = async () => {
+  const files = fs.readdirSync(path.join("blogs"));
+
+  const blogs = files.map((filename) => {
+    const markdownWithMeta = fs.readFileSync(
+      path.join("blogs", filename),
+      "utf-8"
+    );
+    const { data: meta } = matter(markdownWithMeta);
+
+    return {
+      meta,
+      id: filename.split(".")[0],
+    };
+  });
+
+  return {
+    props: {
+      blogs,
+    },
+  };
+};
+
+const Blogs = (props: any) => {
   return (
     <div className={s.blog}>
-      <div>
-        <h1>This will be a blog page soon</h1>
+      <div className="blogs">
+        <div className="header">
+          <h1>Blogs</h1>
+          <hr />
+        </div>
+        <h1>Latest</h1>
+        <div className="blogs-container">
+          {props.blogs
+            .sort((a: any, b: any) => b.meta.date - a.meta.date)
+            .map((blog: any) => (
+              <BlogCard key={blog.id} meta={blog.meta} id={blog.id} />
+            ))}
+        </div>
+        <Footer />
       </div>
     </div>
   );
