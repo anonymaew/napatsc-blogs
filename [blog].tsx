@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Head from "next/head";
+import Image from "next/image";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -31,8 +32,33 @@ export const Code = (props: any) => {
   );
 };
 
+export const NextImage = (props: any) => {
+  return (
+    <div>
+      <Image
+        src={"/blogImg/" + props.src}
+        alt={props.alt}
+        width={640}
+        height={360}
+        quality={25}
+      />
+      <p>{props.alt}</p>
+    </div>
+  );
+};
+
+export const NextLink = (props: any) => {
+  return (
+    <Link href={props.href}>
+      <a>{props.children}</a>
+    </Link>
+  );
+};
+
 export const components = {
   pre: Code,
+  img: NextImage,
+  a: NextLink,
 };
 
 const Blog = (props: any) => {
@@ -48,6 +74,14 @@ const Blog = (props: any) => {
         <div className="header">
           <h1>{props.meta.title}</h1>
           <p>{props.meta.description}</p>
+          <div>
+            <Image
+              src={"/blogImg/" + props.meta.imgName}
+              width={640}
+              height={360}
+              quality={25}
+            />
+          </div>
           <p>
             Written by <a href={props.meta.authorLink}>{props.meta.author}</a>
             {` on ${timeToString(props.meta.date)}`}

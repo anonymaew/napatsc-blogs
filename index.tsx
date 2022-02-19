@@ -2,13 +2,14 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import Link from "next/link";
+import Image from "next/image";
 import s from "./blog.module.scss";
 
 export interface BlogProps {
   meta: {
     title: string;
     description: string;
-    imgLink: string;
+    imgName: string;
     author: string;
     authorLink: string;
     date: number;
@@ -43,7 +44,12 @@ export const BlogCard = (props: any) => (
       <a>
         <div className="blog-card">
           <div>
-            <img src={props.meta.imgLink} alt={props.meta.title} />
+            <Image
+              src={"/blogImg/" + props.meta.imgName}
+              width={640}
+              height={360}
+              quality={25}
+            />
           </div>
           <div>
             <h3>{props.meta.title}</h3>

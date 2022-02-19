@@ -12,6 +12,9 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
   color: $pri;
   font-size: large;
   line-height: 1.5;
+  > * {
+    margin-block: 1.2em;
+  }
   strong {
     color: $sec;
   }
@@ -30,9 +33,18 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
   code {
     background-color: #222;
   }
-  > p > code {
-    padding: 6px;
-    border-radius: 6px;
+  > p {
+    > div {
+      text-align: center;
+      p {
+        margin-top: 0px;
+        color: $ter;
+      }
+    }
+    > code {
+      padding: 6px;
+      border-radius: 6px;
+    }
   }
   > pre {
     border-radius: 6px;
@@ -45,6 +57,7 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
     }
     > code {
       padding: 12px;
+      margin-top: 0px;
       border-bottom-left-radius: 12px;
       border-bottom-right-radius: 12px;
     }
@@ -52,6 +65,13 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
   hr {
     border-color: $ter;
   }
+}
+
+@mixin img-style {
+  width: 100%;
+  margin: auto;
+  aspect-ratio: 16/9;
+  object-fit: cover;
 }
 
 .blog {
@@ -67,6 +87,10 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
       }
       > p:nth-of-type(2) {
         text-align: right;
+      }
+      div {
+        margin: auto;
+        max-width: 640px;
       }
     }
     > h1 {
@@ -98,9 +122,9 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
               margin-bottom: 16px;
             }
             img {
-              width: 100%;
-              aspect-ratio: 16/9;
-              object-fit: cover;
+              @include img-style;
+              border-top-left-radius: 8px;
+              border-top-right-radius: 8px;
             }
             > div:last-of-type {
               padding: 16px;
