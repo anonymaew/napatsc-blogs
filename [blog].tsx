@@ -1,13 +1,12 @@
 import Link from "next/link";
 import Head from "next/head";
-import Image from "next/image";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote } from "next-mdx-remote";
 import rehypeHighlight from "rehype-highlight";
-import { Footer, timeToString } from ".";
+import { timeToString } from ".";
 import s from "./blog.module.scss";
 
 export const Code = (props: any) => {
@@ -34,13 +33,10 @@ export const Code = (props: any) => {
 
 export const NextImage = (props: any) => {
   return (
-    <div>
-      <Image
-        src={"/blogImg/" + props.src}
+    <div className={s.imgContainer}>
+      <img
+        src={`/_next/image?url=%2FblogImg%2F${props.src}&w=1080&q=50`}
         alt={props.alt}
-        width={640}
-        height={360}
-        quality={25}
       />
       <p>{props.alt}</p>
     </div>
@@ -55,10 +51,28 @@ export const NextLink = (props: any) => {
   );
 };
 
+export const Youtube = (props: any) => {
+  return (
+    <div className={s.youtube}>
+      <div>
+        <iframe
+          width="720"
+          height="405"
+          src={props.src}
+          frameBorder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      </div>
+    </div>
+  );
+};
+
 export const components = {
   pre: Code,
   img: NextImage,
   a: NextLink,
+  Youtube: Youtube,
 };
 
 const Blog = (props: any) => {
@@ -70,33 +84,27 @@ const Blog = (props: any) => {
           href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/github-dark.min.css"
         />
       </Head>
-      <div className="blog-page">
-        <div className="header">
-          <h1>{props.meta.title}</h1>
-          <p>{props.meta.description}</p>
-          <div>
-            <Image
-              src={"/blogImg/" + props.meta.imgName}
-              width={640}
-              height={360}
-              quality={25}
-            />
-          </div>
-          <p>
-            Written by <a href={props.meta.authorLink}>{props.meta.author}</a>
-            {` on ${timeToString(props.meta.date)}`}
-          </p>
-          <hr />
+      <div className="header">
+        <h1>{props.meta.title}</h1>
+        <p>{props.meta.description}</p>
+        <div>
+          <img
+            src={`/_next/image?url=%2FblogImg%2F${props.meta.imgName}&w=1080&q=50`}
+          />
         </div>
-        <MDXRemote {...props.mdx} components={components} />
-        <br />
         <p>
-          <Link href="/b">
-            <a>{"<"} Back to the main page</a>
-          </Link>
+          Written by <a href={props.meta.authorLink}>{props.meta.author}</a>
+          {` on ${timeToString(props.meta.date)}`}
         </p>
-        <Footer />
+        <hr />
       </div>
+      <MDXRemote {...props.mdx} components={components} />
+      <br />
+      <p>
+        <Link href="/b">
+          <a>{"<"} Back to the main page</a>
+        </Link>
+      </p>
     </div>
   );
 };

@@ -26,18 +26,6 @@ export const timeToString = (unix: number) => {
   return `${date} ${month} ${year}`;
 };
 
-export const Footer = () => {
-  return (
-    <div className="footer">
-      <hr />
-      <p>
-        © {new Date().getFullYear()}{" "}
-        <a href="https://github.com/anonymaew">Napat Srichan</a>
-      </p>
-    </div>
-  );
-};
-
 export const BlogCard = (props: any) => (
   <div>
     <Link href={`/b/${props.id}`}>
@@ -48,7 +36,6 @@ export const BlogCard = (props: any) => (
               src={"/blogImg/" + props.meta.imgName}
               width={640}
               height={360}
-              quality={25}
             />
           </div>
           <div>
@@ -90,20 +77,17 @@ export const getStaticProps = async () => {
 const Blogs = (props: any) => {
   return (
     <div className={s.blog}>
-      <div className="blogs">
-        <div className="header">
-          <h1>Blogs</h1>
-          <hr />
-        </div>
-        <h1>Latest</h1>
-        <div className="blogs-container">
-          {props.blogs
-            .sort((a: any, b: any) => b.meta.date - a.meta.date)
-            .map((blog: any) => (
-              <BlogCard key={blog.id} meta={blog.meta} id={blog.id} />
-            ))}
-        </div>
-        <Footer />
+      <div className="header">
+        <h1>Blogs</h1>
+        <hr />
+      </div>
+      <h1>Latest</h1>
+      <div className={s.blogContainer}>
+        {props.blogs
+          .sort((a: any, b: any) => b.meta.date - a.meta.date)
+          .map((blog: any) => (
+            <BlogCard key={blog.id} meta={blog.meta} id={blog.id} />
+          ))}
       </div>
     </div>
   );

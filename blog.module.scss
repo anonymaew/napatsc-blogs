@@ -1,19 +1,93 @@
-$bg: black;
-$pri: #ffffff;
-$sec: orange;
-$ter: #666;
+$bg: white;
+$pri: black;
+$sec: darkorange;
+$ter: #777;
+$bg-dark: black;
+$pri-dark: white;
+$sec-dark: orange;
+$ter-dark: #666;
 $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
   Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+$mode: dark;
 
 @mixin blog-style {
+  img {
+    max-width: 640px;
+    width: 100%;
+  }
+  > p {
+    margin-block: 1.2em;
+    > div {
+      text-align: center;
+      p {
+        margin-top: 0px;
+        color: $ter;
+      }
+    }
+    > code {
+      padding: 6px;
+      border-radius: 6px;
+    }
+  }
+  > pre {
+    border-radius: 6px;
+    > p {
+      color: white;
+      background-color: #444;
+      margin-bottom: 0px;
+      padding: 6px 12px 6px 12px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    > code {
+      padding: 12px;
+      margin-top: 0px;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+  }
+  > div:first-of-type {
+    > h1:first-of-type {
+      color: $sec;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      @media (prefers-color-scheme: $mode) {
+        color: $sec-dark;
+      }
+    }
+    > p:nth-of-type(2) {
+      text-align: right;
+    }
+    div {
+      margin: auto;
+      max-width: 640px;
+    }
+  }
+}
+
+@mixin style {
   padding: 45px;
   margin: auto;
   max-width: 980px;
   color: $pri;
   font-size: large;
-  line-height: 1.5;
+  line-height: 1.8;
+  @media screen and (max-width: 768px) {
+    padding: 24px;
+    font-size: medium;
+  }
   > * {
-    margin-block: 1.2em;
+    margin-block: 1.5em;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.2;
+    margin-block-start: 1.5em;
+    margin-block-end: 0;
   }
   strong {
     color: $sec;
@@ -31,132 +105,180 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
     padding: 0 24px;
   }
   code {
+    color: white;
     background-color: #222;
-  }
-  > p {
-    > div {
-      text-align: center;
-      p {
-        margin-top: 0px;
-        color: $ter;
-      }
-    }
-    > code {
-      padding: 6px;
-      border-radius: 6px;
-    }
-  }
-  > pre {
-    border-radius: 6px;
-    > p {
-      background-color: #444;
-      margin-bottom: 0px;
-      padding: 6px 12px 6px 12px;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-    }
-    > code {
-      padding: 12px;
-      margin-top: 0px;
-      border-bottom-left-radius: 12px;
-      border-bottom-right-radius: 12px;
-    }
   }
   hr {
     border-color: $ter;
   }
+
+  @media (prefers-color-scheme: $mode) {
+    color: $pri-dark;
+    strong {
+      color: $sec-dark;
+    }
+    a {
+      color: $sec-dark;
+    }
+    blockquote {
+      border-color: $sec-dark;
+    }
+    > p {
+      p {
+        color: $ter-dark;
+      }
+    }
+    hr {
+      border-color: $ter-dark;
+    }
+  }
 }
 
-@mixin img-style {
-  width: 100%;
+.youtube {
+  max-width: 640px;
   margin: auto;
-  aspect-ratio: 16/9;
-  object-fit: cover;
+  > div {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.imgContainer {
+  max-width: 640px;
+  margin: auto;
+}
+
+.style {
+  font-family: $font;
+  min-height: 100vh;
+  background: $bg;
+  @media (prefers-color-scheme: $mode) {
+    background: $bg-dark;
+  }
+  > div {
+    @include style;
+  }
+}
+
+.firstPage {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    border-bottom: 1px solid $ter;
+    padding-bottom: 6px;
+  }
+  h1:first-of-type {
+    color: $sec;
+    font-size: 3rem;
+    margin-block-start: 0;
+    margin-bottom: 1rem;
+    @media (prefers-color-scheme: $mode) {
+      color: $sec-dark;
+    }
+  }
+}
+
+.footer {
+  text-align: center;
+  font-size: small;
+  color: $ter;
+  margin-top: 1em;
 }
 
 .blog {
-  min-height: 100vh;
-  background: $bg;
+  @include blog-style;
+}
+
+.blogContainer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
   > div {
-    @include blog-style;
-    > div:first-of-type {
-      > h1:first-of-type {
-        color: $sec;
-        font-size: 3rem;
-        margin-bottom: 1rem;
-      }
-      > p:nth-of-type(2) {
-        text-align: right;
-      }
-      div {
-        margin: auto;
-        max-width: 640px;
-      }
+    margin: 24px;
+    transition: 0.3s ease-in-out;
+    &:hover {
+      margin: 8px;
     }
-    > h1 {
-      margin-bottom: 0;
-    }
-    > div:nth-of-type(2) {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-auto-rows: 1fr;
-      @media screen and (max-width: 768px) {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
-      }
+    > a {
+      text-decoration: none;
       > div {
-        margin: 24px;
+        height: 100%;
+        border-radius: 8px;
+        color: $pri;
+        border: 1px solid $ter;
+        margin-bottom: 0px;
         transition: 0.3s ease-in-out;
         &:hover {
-          margin: 8px;
+          margin-bottom: 16px;
         }
-        > a {
-          text-decoration: none;
+        img {
+          width: 100%;
+          margin: auto;
+          aspect-ratio: 16/9;
+          object-fit: cover;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+        }
+        > div:last-of-type {
+          padding: 16px;
+          > h3 {
+            color: $sec;
+            text-decoration: underline;
+            display: block;
+            margin: 0;
+          }
           > div {
-            height: 100%;
-            border-radius: 8px;
-            color: $pri;
-            border: 1px solid $ter;
-            margin-bottom: 0px;
-            transition: 0.3s ease-in-out;
-            &:hover {
-              margin-bottom: 16px;
+            > p:first-of-type {
+              width: 90%;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
             }
-            img {
-              @include img-style;
-              border-top-left-radius: 8px;
-              border-top-right-radius: 8px;
-            }
-            > div:last-of-type {
-              padding: 16px;
-              > h3 {
-                color: $sec;
-                text-decoration: underline;
-                display: block;
-                margin: 0;
-              }
-              > div {
-                > p:first-of-type {
-                  width: 90%;
-                  overflow: hidden;
-                  white-space: nowrap;
-                  text-overflow: ellipsis;
-                }
-                > p:last-of-type {
-                  color: $ter;
-                  right: 16px;
-                  font-size: small;
-                  text-align: right;
-                }
-              }
+            > p:last-of-type {
+              color: $ter;
+              right: 16px;
+              font-size: small;
+              text-align: right;
             }
           }
         }
       }
     }
-    > div:last-of-type {
-      display: block;
-      > p:last-of-type {
-        text-align: center;
+  }
+
+  @media (prefers-color-scheme: $mode) {
+    > div {
+      > a {
+        > div {
+          color: $pri-dark;
+          border-color: $ter-dark;
+          > div:last-of-type {
+            > h3 {
+              color: $sec-dark;
+            }
+            > div {
+              > p:last-of-type {
+                color: $ter-dark;
+              }
+            }
+          }
+        }
       }
     }
   }
