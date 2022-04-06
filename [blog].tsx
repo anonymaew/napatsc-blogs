@@ -33,13 +33,13 @@ export const Code = (props: any) => {
 
 export const NextImage = (props: any) => {
   return (
-    <div className={s.imgContainer}>
+    <figure className={s.imgContainer}>
       <img
         src={`/_next/image?url=%2FblogImg%2F${props.src}&w=1080&q=50`}
         alt={props.alt}
       />
-      <p>{props.alt}</p>
-    </div>
+      <figcaption>{props.alt}</figcaption>
+    </figure>
   );
 };
 
@@ -73,32 +73,51 @@ export const components = {
   img: NextImage,
   a: NextLink,
   Youtube: Youtube,
+  h1: (props: any) => <h2>{props.children}</h2>,
+  h2: (props: any) => <h3>{props.children}</h3>,
+  h3: (props: any) => <h4>{props.children}</h4>,
+  h4: (props: any) => <h5>{props.children}</h5>,
+  h5: (props: any) => <h6>{props.children}</h6>,
 };
 
 const Blog = (props: any) => {
   return (
-    <div className={s.blog}>
+    <div>
       <Head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/github-dark.min.css"
-        />
+        <title>{props.meta.title}</title>
+        <meta name="description" content={props.meta.description} />
+        <meta name="author" content={props.meta.author} />
+        <meta property="og:title" content={props.meta.title} />
+        <meta property="og:description" content={props.meta.description} />
+        <meta property="og:image" content={props.meta.imgName} />
+        <meta property="og:url" content={`https://napat.sc/b/${props.blog}`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="Napat Srichan" />
       </Head>
-      <div className="header">
-        <h1>{props.meta.title}</h1>
-        <p>{props.meta.description}</p>
-        <div>
-          <img
-            src={`/_next/image?url=%2FblogImg%2F${props.meta.imgName}&w=1080&q=50`}
-          />
+      <header>
+        <div className={s.blogheader}>
+          <h1>{props.meta.title}</h1>
+          <p>{props.meta.description}</p>
+          <div>
+            <img
+              src={`/_next/image?url=%2FblogImg%2F${props.meta.imgName}&w=1080&q=50`}
+            />
+          </div>
+          <p>
+            Written by <a href={props.meta.authorLink}>{props.meta.author}</a>
+            {" on "}
+            {}
+            <time dateTime={new Date(props.meta.date).toISOString()}>
+              {timeToString(props.meta.date)}
+            </time>
+          </p>
+
+          <hr />
         </div>
-        <p>
-          Written by <a href={props.meta.authorLink}>{props.meta.author}</a>
-          {` on ${timeToString(props.meta.date)}`}
-        </p>
-        <hr />
-      </div>
-      <MDXRemote {...props.mdx} components={components} />
+      </header>
+      <section className={s.blog}>
+        <MDXRemote {...props.mdx} components={components} />
+      </section>
       <br />
       <p>
         <Link href="/b">
